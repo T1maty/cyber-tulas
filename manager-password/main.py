@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
+
+import urllib.parse
 from database import user_collection
 from bson import ObjectId
 import schemas
@@ -11,12 +13,18 @@ import os
 load_dotenv()
 app = FastAPI()
 
+@app.on_event("startup")
+async def startup_db_client():
+    user = urllib.parse.quote_plus(os.getenv("MONGO_USER"))
+    password = urllib.parse.quote_plus(os.getenv("MONGO_PASSWORD"))
+    host = os.getenv("MONGO_HOST")
+    db_name = os.getenv("MONGO_DB")
+    mongo_details = f"mongodb+srv://{user}:{password}@{host}/{db_name}?retryWrites=true&w=majority"
+
 @app.get("/test-connection")
 async def test_connection():
-    users_cursor = user_collection.find() 
-    users = await users_cursor.to_list(5)  
-    return {"message": "MongoDB Connected!", "users": users}
-
+    users_cursor = user_collection.find()
+    users = await users_cursor.to_list(5)
 
 @app.get('/')
 def welcome():
@@ -26,6 +34,7 @@ def welcome():
 async def read_users():
     users = []
     async for user in user_collection.find():
+        user["_id"] = str(user["_id"])  
         users.append(user)
     return users
 
