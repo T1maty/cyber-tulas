@@ -16,22 +16,21 @@ spec:
         - name: mongodb
           image: mongo:6.0
           ports:
-            - containerPort: 27018
+            - containerPort: 27017
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
-                  key: username
+                  key: mongo-root-username
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mongo-secret
-                  key: password
+                  key: mongo-root-password
           volumeMounts:
             - name: mongo-storage
               mountPath: /data/db
       volumes:
         - name: mongo-storage
-          persistentVolumeClaim:
-            claimName: mongo-pvc
+          emptyDir: {}
