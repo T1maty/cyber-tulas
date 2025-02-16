@@ -21,16 +21,16 @@ async def startup_db_client():
 
     mongo_details = f"mongodb://{user}:{password}@{host}:{port}/{db_name}?authSource=admin"
     
-    print(f"🔗 MongoDB connection string: {mongo_details}")
+    print(f" MongoDB connection string: {mongo_details}")
 
     app.mongodb_client = AsyncIOMotorClient(mongo_details)
     app.mongodb = app.mongodb_client.get_database(db_name)
-    print("✅ MongoDB connected.")
+    print(" MongoDB connected.")
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
     app.mongodb_client.close()
-    print("❌ MongoDB disconnected.")
+    print(" MongoDB disconnected.")
 
 @app.get("/test-connection")
 async def test_connection():
