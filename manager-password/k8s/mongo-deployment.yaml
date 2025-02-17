@@ -32,5 +32,6 @@ spec:
             - name: mongo-storage
               mountPath: /data/db
       volumes:
-        - name: mongo-storage
-          emptyDir: {}
+      - name: mongo-storage
+        persistentVolumeClaim:
+          claimName: mongo-pvc
