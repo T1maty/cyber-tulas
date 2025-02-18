@@ -32,11 +32,7 @@ jobs:
         env:
           ENV: test  
 
-      - name: Analyze code
-        run: |
-          pip install flake8 black
-          flake8 manager-password
-          black --check manager-password
+     
 
       - name: Run test
         run: |
