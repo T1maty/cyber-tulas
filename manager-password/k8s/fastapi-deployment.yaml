@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: fastapi
-          image: gcr.io/manager-password-451712/fastapi-app:latest  
+          image: terms124/manager-password-fastapi-app:latest
           ports:
             - containerPort: 8000
           env:
