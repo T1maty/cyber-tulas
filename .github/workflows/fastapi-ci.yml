@@ -29,7 +29,7 @@ jobs:
 
       - name: Run FastAPI server
         run: |
-          uvicorn manager-password.main:app --host 0.0.0.0 --port 8000 &
+          uvicorn manager-password.main:app --host 0.0.0.0 --port 8000 > /tmp/uvicorn.log 2>&1 &
         env:
           ENV: test
 
@@ -41,9 +41,13 @@ jobs:
         run: |
           ps aux | grep uvicorn
 
+      - name: Capture FastAPI server logs
+        run: |
+          cat /tmp/uvicorn.log
+
       - name: Run tests
         run: |
-          pytest manager-password/tests  # Update this line with the correct path to your test files
+          pytest manager-password/tests  
 
       - name: Stop FastAPI server
         run: |
