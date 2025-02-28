@@ -7,9 +7,14 @@ from typing import List
 import schemas
 from bson import ObjectId
 from database import user_collection  # Import user_collection
-
+from pydantic import BaseModel
 load_dotenv()
 app = FastAPI()
+
+
+
+def test_dummy():
+    pass
 
 @app.on_event("startup")
 async def startup_db_client():
@@ -76,6 +81,3 @@ async def delete_user(id: str):
     return {"message": "User successfully deleted"}
 
 
-
-def test_dummy():
-    pass
