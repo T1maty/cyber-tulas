@@ -47,8 +47,8 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest manager-password/tests  
+          pytest manager-password/tests  # Update this line with the correct path to your test files
 
       - name: Stop FastAPI server
         run: |
-          pkill -f "uvicorn"
+          pkill -f "uvicorn" || true  # Ensure the workflow does not fail if the process is not found
