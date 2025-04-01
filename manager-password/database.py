@@ -17,7 +17,6 @@ MONGO_PORT = os.getenv("MONGO_PORT", "27017")
 
 logger.info(f"MONGO_USER: {MONGO_USER}, MONGO_PASSWORD: {MONGO_PASSWORD}, MONGO_HOST: {MONGO_HOST}, MONGO_DB: {MONGO_DB}")
 
-# Use the MongoDB Atlas connection string format
 mongo_details = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DB}?retryWrites=true&w=majority"
 
 try:
