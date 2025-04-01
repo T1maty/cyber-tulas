@@ -21,9 +21,34 @@ async def test_connection():
         logger.error(f"Error connecting to the database: {e}")
         return {"status": "error", "message": str(e)}
 
-@app.get('/')
-def welcome():
-    return {'message': 'Welcome to my FastAPI application'}
+
+
+@app.post("/register")
+async def register_user(user: schemas.UserBaseRegister):
+    existing_user = await user_collection.find_one({"email":user.email})
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    existing_username = await user_collection.find_one({"username":user.username})
+    if existing_username:
+        raise HTTPException(status_code=400, detail="Username already registered")
+
+    hashed_password = pwd_context.hash(user.password)
+
+    user_dict = user.dict()
+    user_dict["password"] = hashed_password
+
+
+    try:
+       result = await user_collection.insert_one(user_dict)
+       logger.info(f"User registered with ID: {result.inserted_id}")
+    except Exception as e:
+        logger.error(f"Error registering user: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    
+    return {"message": "User registered successfully"}    
+
+
 
 @app.get("/users", response_model=List[schemas.UserBaseLogin])
 async def read_users():
