@@ -1,6 +1,7 @@
 from fastapi.security import OAuth2PasswordBearer
 from pydantic import BaseModel, EmailStr, Field, validator
 from passlib.context import CryptContext
+import re
 
 
 class Token(BaseModel):
@@ -32,9 +33,12 @@ class UserBaseRegister(BaseModel):
 
      @validator("password")
      def validate_password(cls, value):
-         if "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/" in value:
-             raise ValueError(" It should contain at least one uppercase letter, one lowercase letter, and one number")
-         return value
+        # Ensure the password contains at least one uppercase letter, one lowercase letter, and one number
+        if not re.match(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,20}$", value):
+            raise ValueError(
+                "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+            )
+        return value
      
  
 class UserBaseLogin(BaseModel):
