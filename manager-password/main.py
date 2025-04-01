@@ -62,7 +62,7 @@ async def read_users():
         raise HTTPException(status_code=500, detail="Internal Server Error")
     return users
 
-@app.post("/users", response_model=schemas.UserBaseLogin)
+@app.post("/login", response_model=schemas.UserBaseLogin)
 async def create_user(user: schemas.UserCreate,):
     user_dict = user.dict()
     try:
