@@ -11,7 +11,33 @@ class TokenData(BaseModel):
         username:str | None = None
 
 
-class UserBase(BaseModel):
+class UserBaseRegister(BaseModel):
+     username:str = Field(..., min_length=5, max_length=28)
+     email: EmailStr
+     password: str = Field(...,min_length=8, max_length=20)
+     first_name: str = Field(..., min_length=5, max_length=10)
+     last_name: str = Field(..., min_length=5, max_length=10)
+
+     @validator("username")
+     def validate_username(cls, value):
+         if "/^[^\s@]+@[^\s@]+\.[^\s@]{2,6}$/" in value:
+             raise ValueError("Username must not contain spaces")
+         return value
+     
+     @validator("email")
+     def validate_password(cls, value):
+         if "" in value:
+             raise ValueError("This field cannot be empty")
+         return value
+
+     @validator("password")
+     def validate_password(cls, value):
+         if "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{8,}$/" in value:
+             raise ValueError(" It should contain at least one uppercase letter, one lowercase letter, and one number")
+         return value
+     
+ 
+class UserBaseLogin(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=8, max_length=20)
 
@@ -22,10 +48,10 @@ class UserBase(BaseModel):
             raise ValueError("Password must not contain spaces")
         return value
 
-class UserCreate(UserBase):
+class UserCreate(UserBaseRegister):
     pass
 
-class UserResponse(UserBase):
+class UserResponse(UserBaseRegister):
    id: int
 
 

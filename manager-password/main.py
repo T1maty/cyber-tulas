@@ -25,7 +25,7 @@ async def test_connection():
 def welcome():
     return {'message': 'Welcome to my FastAPI application'}
 
-@app.get("/users", response_model=List[schemas.UserBase])
+@app.get("/users", response_model=List[schemas.UserBaseLogin])
 async def read_users():
     users = []
     try:
@@ -37,7 +37,7 @@ async def read_users():
         raise HTTPException(status_code=500, detail="Internal Server Error")
     return users
 
-@app.post("/users", response_model=schemas.UserBase)
+@app.post("/users", response_model=schemas.UserBaseLogin)
 async def create_user(user: schemas.UserCreate,):
     user_dict = user.dict()
     try:
@@ -48,7 +48,7 @@ async def create_user(user: schemas.UserCreate,):
         raise HTTPException(status_code=500, detail="Internal Server Error")
     return user_dict
 
-@app.put("/users/{id}", response_model=schemas.UserBase)
+@app.put("/users/{id}", response_model=schemas.UserBaseLogin)
 async def update_user(id: str, user: schemas.UserCreate):
     user_dict = user.dict()
     try:
