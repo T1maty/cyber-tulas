@@ -12,18 +12,9 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
-@app.get("/test-connection")
-async def test_connection():
-    try:
-        collections = await user_collection.database.list_collection_names()
-        return {"status": "success", "collections": collections}
-    except Exception as e:
-        logger.error(f"Error connecting to the database: {e}")
-        return {"status": "error", "message": str(e)}
 
 
-
-@app.post("/register")
+@app.post("/api/register")
 async def register_user(user: schemas.UserBaseRegister):
     existing_user = await user_collection.find_one({"email":user.email})
     if existing_user:
@@ -49,8 +40,19 @@ async def register_user(user: schemas.UserBaseRegister):
     return {"message": "User registered successfully"}    
 
 
+@app.post("/api/login", response_model=schemas.UserBaseLogin)
+async def create_user(user: schemas.UserCreate,):
+    user_dict = user.dict()
+    try:
+        result = await user_collection.insert_one(user_dict)
+        user_dict["_id"] = str(result.inserted_id) 
+    except Exception as e:
+        logger.error(f"Error creating user: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+    return user_dict
 
-@app.get("/users", response_model=List[schemas.UserBaseLogin])
+
+@app.get("/api/users", response_model=List[schemas.UserBaseLogin])
 async def read_users():
     users = []
     try:
@@ -62,18 +64,9 @@ async def read_users():
         raise HTTPException(status_code=500, detail="Internal Server Error")
     return users
 
-@app.post("/login", response_model=schemas.UserBaseLogin)
-async def create_user(user: schemas.UserCreate,):
-    user_dict = user.dict()
-    try:
-        result = await user_collection.insert_one(user_dict)
-        user_dict["_id"] = str(result.inserted_id) 
-    except Exception as e:
-        logger.error(f"Error creating user: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
-    return user_dict
 
-@app.put("/users/{id}", response_model=schemas.UserBaseLogin)
+
+@app.put("/api/users/{id}", response_model=schemas.UserBaseLogin)
 async def update_user(id: str, user: schemas.UserCreate):
     user_dict = user.dict()
     try:
@@ -86,7 +79,7 @@ async def update_user(id: str, user: schemas.UserCreate):
     user_dict["_id"] = id
     return user_dict
 
-@app.delete("/users/{id}")
+@app.delete("/api/users/{id}")
 async def delete_user(id: str):
     try:
         result = await user_collection.delete_one({"_id": ObjectId(id)})
@@ -96,3 +89,14 @@ async def delete_user(id: str):
         logger.error(f"Error deleting user: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
     return {"message": "User successfully deleted"}
+
+
+
+@app.get("/test-connection")
+async def test_connection():
+    try:
+        collections = await user_collection.database.list_collection_names()
+        return {"status": "success", "collections": collections}
+    except Exception as e:
+        logger.error(f"Error connecting to the database: {e}")
+        return {"status": "error", "message": str(e)}
