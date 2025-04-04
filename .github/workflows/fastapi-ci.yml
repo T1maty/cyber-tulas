@@ -47,7 +47,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest manager-password/tests  # Update this line with the correct path to your test files
+          pytest manager-password/test  # Update this line with the correct path to your test files
 
       - name: Stop FastAPI server
         run: |
