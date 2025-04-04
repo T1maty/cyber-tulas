@@ -5,6 +5,7 @@ from bson import ObjectId
 from database import user_collection  # Import user_collection
 from pydantic import BaseModel
 import logging
+from starlette.middleware.cors import CORSMiddleware
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -13,6 +14,13 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://localhost:8006"],
+    allow_credentials=True,
+    allow_methods=["GET","POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 @app.post("/api/register")
 async def register_user(user: schemas.UserBaseRegister):
