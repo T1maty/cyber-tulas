@@ -36,3 +36,9 @@ spec:
               value: "college"
             - name: MONGO_PORT
               value: "27017"
+          readinessProbe:
+            httpGet:
+              path: /docs
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5

@@ -1,7 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
 import schemas
-from bson import ObjectId
+from schemas import pwd_context
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from bson import ObjectI, ObjectId
 from database import user_collection  # Import user_collection
 from pydantic import BaseModel
 import logging
@@ -49,7 +51,7 @@ async def register_user(user: schemas.UserBaseRegister):
 
 
 @app.post("/api/login", response_model=schemas.UserBaseLogin)
-async def create_user(user: schemas.UserCreate,):
+async def create_user(user: schemas.UserCreate):
     user_dict = user.dict()
     try:
         result = await user_collection.insert_one(user_dict)
@@ -65,7 +67,7 @@ async def read_users():
     users = []
     try:
         async for user in user_collection.find():
-            user["_id"] = str(user["_id"])  # Convert ObjectId to string
+            user["_id"] = str(user["_id"])  
             users.append(user)
     except Exception as e:
         logger.error(f"Error reading users: {e}")
