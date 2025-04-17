@@ -1,9 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from typing import List
+
+from mongomock import DuplicateKeyError
 import schemas
 from schemas import pwd_context
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
-from bson import ObjectI, ObjectId
+from bson import  ObjectId
 from database import user_collection  # Import user_collection
 from pydantic import BaseModel
 import logging
@@ -41,23 +43,25 @@ async def register_user(user: schemas.UserBaseRegister):
 
 
     try:
-       result = await user_collection.insert_one(user_dict)
-       logger.info(f"User registered with ID: {result.inserted_id}")
+        result = await user_collection.insert_one(user_dict)
+        logger.info(f"User registered with ID: {result.inserted_id}")
+    except DuplicateKeyError:
+        raise HTTPException(status_code=400, detail="Email already registered")
     except Exception as e:
         logger.error(f"Error registering user: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
-    
-    return {"message": "User registered successfully"}    
+
+    return {"message": "User registered successfully"}
 
 
 @app.post("/api/login", response_model=schemas.UserBaseLogin)
-async def create_user(user: schemas.UserCreate):
+async def login_user(user: schemas.UserBaseLogin):
     user_dict = user.dict()
     try:
         result = await user_collection.insert_one(user_dict)
         user_dict["_id"] = str(result.inserted_id) 
     except Exception as e:
-        logger.error(f"Error creating user: {e}")
+        logger.error(f"Error login user: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
     return user_dict
 
@@ -77,7 +81,7 @@ async def read_users():
 
 
 @app.put("/api/users/{id}", response_model=schemas.UserBaseLogin)
-async def update_user(id: str, user: schemas.UserCreate):
+async def update_user(id: str, user: schemas.UserResponse):
     user_dict = user.dict()
     try:
         result = await user_collection.update_one({"_id": ObjectId(id)}, {"$set": user_dict})
