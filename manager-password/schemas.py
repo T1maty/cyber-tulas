@@ -38,13 +38,15 @@ class UserBaseRegister(BaseModel):
 class UserBaseLogin(BaseModel):
     email: EmailStr
     password: str = Field(..., min_length=8, max_length=20)
-
-
+    
     @validator("password")
     def validate_password(cls, value):
-        if " " in value:
-            raise ValueError("Password must not contain spaces")
+        if not re.match(r"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d@#$%^&+=!]{8,22}$", value):
+            raise ValueError(
+               "Password must contain at least one uppercase letter, one lowercase letter, one number, and can include special characters"
+            )
         return value
+
 
 
 class UserCreate(UserBaseRegister):

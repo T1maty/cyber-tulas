@@ -39,7 +39,7 @@ async def register_user(user: schemas.UserBaseRegister):
     return {"message": "User registered successfully"}
 
 
-@router.post("/login", response_model=schemas.UserBaseLogin)
+@router.post("/api/login")
 async def login_user(user: schemas.UserBaseLogin):
     existing_user = await user_collection.find_one({"email": user.email})
     if not existing_user:
@@ -49,7 +49,6 @@ async def login_user(user: schemas.UserBaseLogin):
         raise HTTPException(status_code=400, detail="Invalid email or password")
 
     return {"message": "Login successful"}
-
 
 @router.get("/users", response_model=List[schemas.UserBaseLogin])
 async def read_users():
