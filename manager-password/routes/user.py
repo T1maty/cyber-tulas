@@ -1,20 +1,40 @@
-from fastapi import APIRouter, HTTPException
-from typing import List
+from fastapi import APIRouter, Depends, HTTPException
+from typing import Annotated, List
 from bson import ObjectId
 from database import user_collection
 import schemas
 from schemas import pwd_context
 from pymongo.errors import DuplicateKeyError
 import logging
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 
 logger = logging.getLogger(__name__)
 
 
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+
 router = APIRouter()
 
+
+router.post("/token-auth")
+async def token_login(form_data: Annotated[str, Depends(oauth2_scheme)]):
+    user = await user_collection.find_one({"email": form_data.username})
+    if not user:
+        raise HTTPException(status_code=400, detail="Invalid email or password")
+
+    if not pwd_context.verify(form_data.password, user["password"]):
+        raise HTTPException(status_code=400, detail="Invalid email or password")
+
+    return {"access_token": user.username, "token_type": "bearer"}
+
+
+
 @router.post("/register")
-async def register_user(user: schemas.UserBaseRegister):
+async def register_user(user: schemas.UserBaseRegister, token: Annotated[str, Depends(oauth2_scheme)]):
     existing_user = await user_collection.find_one({"email": user.email})
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -40,7 +60,7 @@ async def register_user(user: schemas.UserBaseRegister):
 
 
 @router.post("/api/login")
-async def login_user(user: schemas.UserBaseLogin):
+async def login_user(user: schemas.UserBaseLogin, token: Annotated[str, Depends(oauth2_scheme)]):
     existing_user = await user_collection.find_one({"email": user.email})
     if not existing_user:
         raise HTTPException(status_code=400, detail="Invalid email or password")
@@ -55,7 +75,7 @@ async def read_users():
     users = []
     try:
         async for user in user_collection.find():
-            user["_id"] = str(user["_id"])  # Convert ObjectId to string
+            user["_id"] = str(user["_id"])  
             users.append(user)
     except Exception as e:
         logger.error(f"Error reading users: {e}")

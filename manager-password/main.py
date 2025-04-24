@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
 from routes.user import router as user_router
 import logging
@@ -8,7 +9,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
 app = FastAPI()
+
 
 app.add_middleware(
     CORSMiddleware,

@@ -18,3 +18,4 @@ pytest
 httpx
 mongomock
 passlib
+python-multipart
