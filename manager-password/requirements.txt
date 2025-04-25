@@ -19,3 +19,4 @@ httpx
 mongomock
 passlib
 python-multipart
+pyjwt

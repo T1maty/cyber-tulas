@@ -7,7 +7,13 @@ from schemas import pwd_context
 from pymongo.errors import DuplicateKeyError
 import logging
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from passlib.context import CryptContext
 
+
+
+SECRET_KEY = "915ecbac79029b3ae20e60e424dc06919beaff15f45dcc865444579867d83125"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 logger = logging.getLogger(__name__)
 
@@ -15,6 +21,7 @@ logger = logging.getLogger(__name__)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 router = APIRouter()

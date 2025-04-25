@@ -1,3 +1,4 @@
+import time
 from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
@@ -14,14 +15,17 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 app = FastAPI()
 
+origins = ["http://localhost","http://localhost:8000"]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["https://localhost:8000", "http://localhost:8006"],
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE"],
-    allow_headers=["*"],
-)
+
+@app.middleware("http")
+async def add_process_time_header(request, call_next):
+    start_time = time.perf_conter()
+    response = await call_next(request)
+    process_time = time.perf_counter() - start_time
+    response.headers["X-Process-Time"] = str(process_time)
+    return response
+
 
 
 app.include_router(user_router, prefix="/api")
