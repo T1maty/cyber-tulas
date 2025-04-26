@@ -5,6 +5,7 @@ from starlette.middleware.cors import CORSMiddleware
 from routes.user import router as user_router
 import logging
 from database import user_collection
+from fastapi.testclient import TestClient
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -13,7 +14,10 @@ logger = logging.getLogger(__name__)
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
+
 app = FastAPI()
+
+
 
 origins = ["http://localhost","http://localhost:8000"]
 
