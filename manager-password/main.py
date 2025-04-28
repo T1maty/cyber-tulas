@@ -19,29 +19,20 @@ app = FastAPI()
 
 
 
-origins = ["http://localhost","http://localhost:8000"]
+app.include_router(user_router, prefix="/api")
 
-@app.add_middleware(
+
+origins = ["http://localhost:8000"]
+
+app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=["GET", "POST", "PUT", "DELETE"],
+        allow_headers=["Authorization", "Content-Type"],
 )
 
 
-
-@app.middleware("http")
-async def add_process_time_header(request, call_next):
-    start_time = time.perf_conter()
-    response = await call_next(request)
-    process_time = time.perf_counter() - start_time
-    response.headers["X-Process-Time"] = str(process_time)
-    return response
-
-
-
-app.include_router(user_router, prefix="/api")
 
 @app.get("/test-connection")
 async def test_connection():

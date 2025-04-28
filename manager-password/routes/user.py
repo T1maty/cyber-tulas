@@ -1,6 +1,8 @@
+from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated, List
 from bson import ObjectId
+import jwt
 from database import user_collection
 import schemas
 from schemas import pwd_context
@@ -29,6 +31,13 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 router = APIRouter()
+
+def create_access_token(data: dict, expires_delta: timedelta | None = None):
+    to_encode = data.copy()
+    expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
 
 
 router.post("/token-auth")
@@ -87,7 +96,10 @@ async def read_users():
     try:
         async for user in user_collection.find():
             user["_id"] = str(user["_id"])  
-            users.append(user)
+            users.append({
+                "email": user["email"],
+                "password": user["password"]
+            })
     except Exception as e:
         logger.error(f"Error reading users: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
