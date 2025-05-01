@@ -20,3 +20,4 @@ mongomock
 passlib
 python-multipart
 pyjwt
+pydantic[email]
