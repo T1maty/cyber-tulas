@@ -41,6 +41,10 @@ jobs:
         run: |
           ps aux | grep uvicorn
 
+      - name: Run tests with pytest
+        run: |
+          pytest test/ --maxfail=5 --disable-warnings -v      
+
       - name: Capture FastAPI server logs
         run: |
           cat /tmp/uvicorn.log
