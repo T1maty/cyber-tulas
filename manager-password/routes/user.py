@@ -54,7 +54,7 @@ async def token_login(form_data: Annotated[str, Depends(oauth2_scheme)]):
 
 
 @router.post("/register")
-async def register_user(user: schemas.UserBaseRegister, token: Annotated[str, Depends(oauth2_scheme)]):
+async def register_user(user: schemas.UserBaseRegister):
     existing_user = await user_collection.find_one({"email": user.email})
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -77,6 +77,7 @@ async def register_user(user: schemas.UserBaseRegister, token: Annotated[str, De
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
     return {"message": "User registered successfully"}
+
 
 
 @router.post("/login")
