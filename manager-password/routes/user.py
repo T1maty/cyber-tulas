@@ -79,7 +79,7 @@ async def register_user(user: schemas.UserBaseRegister, token: Annotated[str, De
     return {"message": "User registered successfully"}
 
 
-@router.post("/api/login")
+@router.post("/login")
 async def login_user(user: schemas.UserBaseLogin, token: Annotated[str, Depends(oauth2_scheme)]):
     existing_user = await user_collection.find_one({"email": user.email})
     if not existing_user:
@@ -120,7 +120,7 @@ async def update_user(id: str, user: schemas.UserResponse):
     return user_dict
 
 
-@router.delete("/users/{id}")
+@router.delete("/api/users/{id}")
 async def delete_user(id: str):
     try:
         result = await user_collection.delete_one({"_id": ObjectId(id)})

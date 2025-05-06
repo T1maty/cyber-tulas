@@ -6,9 +6,11 @@ from routes.user import router as user_router
 import logging
 from database import user_collection
 from fastapi.testclient import TestClient
-
+from fastapi.routing import APIRoute
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -16,6 +18,12 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 app = FastAPI()
+
+
+
+for route in app.routes:
+    if isinstance(route, APIRoute):
+        print(route.path)
 
 
 

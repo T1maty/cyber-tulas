@@ -16,7 +16,7 @@ def test_test_connection():
 
 def test_user_register():
     response = client.post(
-        "/api/register",
+        "/register",
         json={
             "username": "testuser",
             "email": "test@example.com",
@@ -35,19 +35,18 @@ def test_get_users():
 
 def test_user_login():
     client.post(
-        "/api/register",
+        "/register",
         json={
-            "username": "Test",
-            "email": "testexample@gmail.com",
-            "password": "Password!1A3",
-            "first_name": "John",
-            "last_name": "Doe"
+            {
+              "email": "user@example.com",
+              "password": "stringst"
+}
         }
     )
 
     
     response = client.post(
-        "/api/login",
+        "/login",
         json={
             "email": "test@example.com",
             "password": "Password123@"
