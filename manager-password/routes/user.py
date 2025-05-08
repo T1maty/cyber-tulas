@@ -81,7 +81,7 @@ async def register_user(user: schemas.UserBaseRegister):
 
 
 @router.post("/login")
-async def login_user(user: schemas.UserBaseLogin, token: Annotated[str, Depends(oauth2_scheme)]):
+async def login_user(user: schemas.UserBaseLogin):
     existing_user = await user_collection.find_one({"email": user.email})
     if not existing_user:
         raise HTTPException(status_code=400, detail="Invalid email or password")
