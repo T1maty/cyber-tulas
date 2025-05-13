@@ -15,12 +15,16 @@ jobs:
 
       - name: Install kubescape
         run: |
-          curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | /bin/bash
+          curl -s https://raw.githubusercontent.com/kubescape/kubescape/master/install.sh | bash
+          echo "$HOME/.kubescape" >> $GITHUB_PATH
+          kubescape version
+
+      - name: Create output folder
+        run: mkdir -p results
 
       - name: Run kubescape scan
         run: |
-          mkdir -p results
-            kubescape scan framework nsa --format json --output results/kubescape-results.json
+          kubescape scan framework nsa --format json --output results/kubescape-results.json
 
       - name: Upload scan results
         uses: actions/upload-artifact@v4
