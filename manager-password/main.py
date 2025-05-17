@@ -28,8 +28,8 @@ for route in app.routes:
 
 
 
-app.include_router(user_router,server_router, prefix="/api")
-
+app.include_router(user_router, prefix="/api/users")
+app.include_router(server_router, prefix="/api/servers")
 
 origins = ["http://localhost:8000"]
 
