@@ -1,4 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorClient
+from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
 import os
 import logging
@@ -8,6 +9,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 load_dotenv()
+
+Base = declarative_base()
 
 MONGO_USER = os.getenv("MONGO_USER")
 MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
@@ -23,6 +26,8 @@ try:
     client = AsyncIOMotorClient(mongo_details)
     database = client[MONGO_DB]
     user_collection = database.get_collection("users")
+    server_collection = database.get_collection("servers")
+    # Test the connection
     logger.info("MongoDB connection established successfully.")
 except Exception as e:
     logger.error(f"Error connecting to MongoDB: {e}")

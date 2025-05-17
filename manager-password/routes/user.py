@@ -4,8 +4,8 @@ from typing import Annotated, List
 from bson import ObjectId
 import jwt
 from database import user_collection
-import schemas
-from schemas import pwd_context
+from schemas.user import UserBaseRegister, UserBaseLogin, UserResponse
+from schemas.user import pwd_context
 from pymongo.errors import DuplicateKeyError
 import logging
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -54,7 +54,7 @@ async def token_login(form_data: Annotated[str, Depends(oauth2_scheme)]):
 
 
 @router.post("/register")
-async def register_user(user: schemas.UserBaseRegister):
+async def register_user(user: UserBaseRegister):
     existing_user = await user_collection.find_one({"email": user.email})
     if existing_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -81,7 +81,7 @@ async def register_user(user: schemas.UserBaseRegister):
 
 
 @router.post("/login")
-async def login_user(user: schemas.UserBaseLogin):
+async def login_user(user: UserBaseLogin):
     existing_user = await user_collection.find_one({"email": user.email})
     if not existing_user:
         raise HTTPException(status_code=400, detail="Invalid email or password")
@@ -91,7 +91,7 @@ async def login_user(user: schemas.UserBaseLogin):
 
     return {"message": "Login successful"}
 
-@router.get("/users", response_model=List[schemas.UserBaseLogin])
+@router.get("/users", response_model=List[UserBaseLogin])
 async def read_users():
     users = []
     try:
@@ -107,8 +107,8 @@ async def read_users():
     return users
 
 
-@router.put("/users/{id}", response_model=schemas.UserBaseLogin)
-async def update_user(id: str, user: schemas.UserResponse):
+@router.put("/users/{id}", response_model=UserBaseLogin)
+async def update_user(id: str, user: UserResponse):
     user_dict = user.dict()
     try:
         result = await user_collection.update_one({"_id": ObjectId(id)}, {"$set": user_dict})

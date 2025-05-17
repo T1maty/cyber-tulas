@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
 from routes.user import router as user_router
+from routes.server import router as server_router
 import logging
 from database import user_collection
 from fastapi.testclient import TestClient
@@ -27,7 +28,7 @@ for route in app.routes:
 
 
 
-app.include_router(user_router, prefix="/api")
+app.include_router(user_router,server_router, prefix="/api")
 
 
 origins = ["http://localhost:8000"]
