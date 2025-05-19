@@ -29,7 +29,7 @@ class ServerBaseCreate(BaseModel):
     port: int
     username: str
     password: str
-    owner_id: int
+   
 
 
 class ServerResponse(BaseModel):
@@ -38,8 +38,8 @@ class ServerResponse(BaseModel):
     hostname: str
     port: int
     username: str
-    password: str
-    owner_id: int
+    owner_id: PyObjectId
+   
 
     class Config:
         allow_population_by_field_name = True

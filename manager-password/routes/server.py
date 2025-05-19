@@ -7,7 +7,7 @@ from bson import ObjectId
 router = APIRouter()
 
 @router.post("/create-server", response_model=ServerBaseCreate)
-async def create_server(server: ServerBaseCreate):
+async def create_server(server: ServerResponse):
     server_dict = server.dict(by_alias=True)
     result = await server_collection.insert_one(server_dict)
     server_dict["_id"] = str(result.inserted_id)
