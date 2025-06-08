@@ -52,4 +52,3 @@ async def test_connection():
         logger.error(f"Error connecting to the database: {e}")
         return {"status": "error", "message": str(e)}
 
- #testing commit for fixing the issue with commit and push with git       
