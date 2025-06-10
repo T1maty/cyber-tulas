@@ -1,0 +1,36 @@
+- name: Apply FastAPI Deployment
+  kubernetes.core.k8s:
+  state: present
+  src: "{{ role_path }}/templates/app/fastapi-deplyoment.yaml"
+  namespace: "{{namespace }}"
+
+- name: Apply FastAPI Service
+  kubernetes.core.k8s:
+  state: present
+  src: "{{role_path }}/templates/app/fastapi-service.yaml"
+  namespace: "{{ namespace }}"
+
+- name: Apply MongoDB Deployment
+  kubernetes.core.k8s:
+  state: present
+  src: "{{ role_path }}/templates/mongo/mongo-deployment.yaml"
+  namespace: "{{ namespace }}"
+
+- name: Apply MongoDB Service
+  kubernetes.core.k8s:
+  state: present
+  src: "{{ role_path }}/templates/mongo/mongo-service.yaml"
+  namespace: "{{ namespace }}"
+
+- name: Apply MongoDB Secret
+  kubernetes.core.k8s:
+  state: present
+  src: "{{ role_path }}/templates/mongo/mongo-secret.yaml"
+  namespace: "{{ namespace }}"
+
+- name: Apply MongoDB Persistent-Volume-Claim
+  kubernetes.core.k8s:
+  state: present
+  src: "{{ role_path }}/templates/mongo/mongo-pvc.yaml"
+  namespace: "{{ namespace }}"
+

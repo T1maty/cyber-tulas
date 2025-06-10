@@ -22,6 +22,16 @@
           metadata:
             name: mongodb
 
+    - hosts: all
+      become: true
+      tasks:
+
+      -  name: create  admin user
+  
+         tags: always
+         user:
+           name: admin
+           groups: root
     - name: Deploy FastAPI application
       kubernetes.core.k8s:
         state: present
