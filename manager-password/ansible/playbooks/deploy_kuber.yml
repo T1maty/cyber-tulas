@@ -1,45 +1,7 @@
----
-- name: Deploy Kubernetes Resources
-  hosts: localhost
-  gather_facts: false
-  tasks:
-
-    - name: Create namespace for FastAPI app
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: fastapi-app
-
-    - name: Create namespace for MongoDB
-      kubernetes.core.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: mongodb
-
-    - hosts: all
-      become: true
-      tasks:
-
-      -  name: create  admin user
-  
-         tags: always
-         user:
-           name: admin
-           groups: root
-    - name: Deploy FastAPI application
-      kubernetes.core.k8s:
-        state: present
-        namespace: fastapi-app
-        definition: "{{ lookup('file', '/mnt/c/Users/1/Desktop/fastapi_crud/manager-password/ansible/templates/app/fastapi-deployment.yaml') }}"
-
-    - name: Deploy MongoDB application
-      kubernetes.core.k8s:
-        state: present
-        namespace: mongodb
-        definition: "{{ lookup('file','/mnt/c/Users/1/Desktop/fastapi_crud/manager-password/ansible/templates/mongo/mongo-deployment.yaml') }}"
+- hosts: localhost
+  connection: local
+  become: yes
+  roles:
+    - k8s_resources
+    - minikube_setup
+    - network_policies

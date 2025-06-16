@@ -1,0 +1,10 @@
+- name: Apply Network Policy Ingress
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/network-policies/network-policy-ingress.yaml"
+
+
+- name: Apply Network Policy Egress
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/network-policies/network-policy-egress.yaml"
