@@ -28,7 +28,7 @@ jobs:
           pip install pytest
 
       - name: Build Docker image
-        run: docker build -t ${{secrets.DOCKER_USERNAME}}/terms124/fastapi-app:latest .
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/fastapi-app:latest .
 
 
       - name: Log in to Docker Hub
@@ -36,7 +36,7 @@ jobs:
 
 
       - name: Push Docker image
-        run: docker push ${{secrets.DOCKER_USERNAME}}/terms124/fastapi-app:latest
+        run: docker push ${{secrets.DOCKER_USERNAME}}/fastapi-app:latest
       
 
       - name: Run FastAPI server
