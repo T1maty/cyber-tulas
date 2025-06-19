@@ -1,0 +1,65 @@
+name: FastAPI CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r manager-password/requirements.txt
+          pip install pytest
+
+      - name: Build Docker image
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/terms124/fastapi-app:latest .
+
+
+      - name: Log in to Docker Hub
+        run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login  -u ${{secrets.DOCKER_USERNAME}} --password-stdin
+
+
+      - name: Push Docker image
+        run: docker push ${{secrets.DOCKER_USERNAME}}/terms124/fastapi-app:latest
+      
+
+      - name: Run FastAPI server
+        run: |
+          uvicorn manager-password.main:app --host 0.0.0.0 --port 8000 > /tmp/uvicorn.log 2>&1 &
+        env:
+          ENV: test
+
+      - name: Wait for server to start
+        run: |
+          sleep 10  # Wait for 10 seconds to ensure the server has started
+
+      - name: Check if FastAPI server is running
+        run: |
+          ps aux | grep uvicorn
+
+         
+
+      - name: Capture FastAPI server logs
+        run: |
+          cat /tmp/uvicorn.log
+
+
+      - name: Stop FastAPI server
+        run: |
+          pkill -f "uvicorn" || true  # Ensure the workflow does not fail if the process is not found
