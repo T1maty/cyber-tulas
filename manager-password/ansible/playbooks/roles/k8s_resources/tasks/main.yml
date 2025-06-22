@@ -11,6 +11,8 @@
       metadata:
         name: default
 
+
+
 - name: Apply FastAPI Deployment
   kubernetes.core.k8s:
     state: present

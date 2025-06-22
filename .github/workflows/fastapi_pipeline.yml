@@ -27,23 +27,28 @@ jobs:
           pip install -r manager-password/requirements.txt
           pip install pytest
 
-      - name: Build Docker image
-        run: docker build -t ${{secrets.DOCKER_USERNAME}}/fastapi-app:latest .
-
-
-      - name: Log in to Docker Hub
-        run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login  -u ${{secrets.DOCKER_USERNAME}} --password-stdin
-
-
-      - name: Push Docker image
-        run: docker push ${{secrets.DOCKER_USERNAME}}/fastapi-app:latest
-      
-
       - name: Run FastAPI server
         run: |
-          uvicorn manager-password.main:app --host 0.0.0.0 --port 8000 > /tmp/uvicorn.log 2>&1 &
+          uvicorn main:app --host 0.0.0.0 --port 8000 > $GITHUB_WORKSPACE/uvicorn.log 2>&1 & sleep 2
+          cat $GITHUB_WORKSPACE/uvicorn.log || echo "Log file not created yet"
         env:
           ENV: test
+        working-directory: manager-password
+
+
+      - name: Install Ansible and Kubernetes collection
+        run: |
+          python -m pip install ansible
+          ansible-galaxy collection install kubernetes.core
+
+      - name: Set up Minikube
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{secrets.KUBECONFIG}}" > $HOME/.kube/config
+      
+      - name: Run Ansible Playbook
+        run: ansible-playbook  -t skip_facts deploy_kuber.yml
+        working-directory: manager-password/ansible/playbooks
 
       - name: Wait for server to start
         run: |
@@ -51,13 +56,13 @@ jobs:
 
       - name: Check if FastAPI server is running
         run: |
-          ps aux | grep uvicorn
-
+          curl --retry 5 --retry-delay 2 --retry-max-time 30 http:localhost:8000/ || echo "Failed to reach FastAPI server"
+        working-directory: manager-password
          
 
       - name: Capture FastAPI server logs
-        run: |
-          cat /tmp/uvicorn.log
+        run: cat $GITHUB_WORKSPACE/uvicorn.log || echo "Log file not found"
+        continue-on-error: true
 
 
       - name: Stop FastAPI server
