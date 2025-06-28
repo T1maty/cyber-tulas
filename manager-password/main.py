@@ -4,6 +4,7 @@ from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
 from routes.user import router as user_router
 from routes.server import router as server_router
+from routes.payment import router as payment_router
 import logging
 from database import user_collection
 from fastapi.testclient import TestClient
@@ -30,6 +31,7 @@ for route in app.routes:
 
 app.include_router(user_router, prefix="/api/users")
 app.include_router(server_router, prefix="/api/servers")
+app.include_router(payment_router, prefix="/api/process-payment")
 
 origins = ["http://localhost:8000"]
 

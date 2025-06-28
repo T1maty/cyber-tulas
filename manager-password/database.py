@@ -27,6 +27,7 @@ try:
     database = client[MONGO_DB]
     user_collection = database.get_collection("users")
     server_collection = database.get_collection("servers")
+    payment_collection = database.get_collection("payments")
     # Test the connection
     logger.info("MongoDB connection established successfully.")
 except Exception as e:
