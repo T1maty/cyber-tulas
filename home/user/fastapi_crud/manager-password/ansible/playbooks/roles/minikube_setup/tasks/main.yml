@@ -1,0 +1,35 @@
+- name: Check if Minikube is installed
+  command: minikube version
+  register: minikube_check
+  failed_when: false
+  changed_when: false
+
+- name: Install Minikube
+  when: minikube_check.rc != 0
+  become: yes
+  block:
+  - name: Download Minikube binary
+    get_url:
+        url: "https://github.com/kubernetes/minikube/releases/download/v{{ minikube_version }}/minikube-linux-amd64"
+        dest: "/usr/local/bin/minikube"
+        mode: "0755"
+
+- name: Check if kubectl is installed
+  command: kubectl version --client
+  register: kubectl_check
+  failed_when: false
+  changed_when: false
+
+- name: Install kubectl
+  when: kubectl_check.rc != 0
+  become: yes
+  get_url:
+    url: "https://dl.k8s.io/release/{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}/bin/linux/amd64/kubectl"
+    dest: "/usr/local/bin/kubectl"
+    mode: "0755"
+
+- name: Start Minikube
+  command: minikube start --driver=docker --force
+  register: minikube_start
+  changed_when: minikube_start.rc == 0
+  become: no

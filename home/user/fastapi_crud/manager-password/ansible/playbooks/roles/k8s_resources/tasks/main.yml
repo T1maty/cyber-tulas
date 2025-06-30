@@ -1,0 +1,58 @@
+- name: Debug namespace variable
+  ansible.builtin.debug:
+    msg: "Namespace value: {{ namespace }}"
+
+- name: Create namespace if it does not exist
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: default
+
+
+
+
+- name: Apply Payment App
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/payment/payment-deployment.yaml"
+    namespace: default
+
+
+- name: Apply FastAPI Deployment
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/app/fastapi-deployment.yaml"
+    namespace: default
+
+- name: Apply FastAPI Service
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/app/fastapi-service.yaml"
+    namespace: default
+
+- name: Apply MongoDB Deployment
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/mongo/mongo-deployment.yaml"
+    namespace: default
+
+- name: Apply MongoDB Service
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/mongo/mongo-service.yaml"
+    namespace: default
+
+- name: Apply MongoDB Secret
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/mongo/mongo-secret.yaml"
+    namespace: default
+
+- name: Apply MongoDB Persistent-Volume-Claim
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/mongo/mongo-pvc.yaml"
+    namespace: default
