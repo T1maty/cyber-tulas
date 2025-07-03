@@ -68,7 +68,7 @@ spec:
       volumes:
       - name: app-code
         hostPath:
-          path: /home/user/fastapi_crud/manager-password
+          path: home/user/fastapi_crud/manager-password
           type: Directory
 ---
 apiVersion: v1
