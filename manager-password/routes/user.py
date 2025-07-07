@@ -16,10 +16,14 @@ import os
 load_dotenv()
 
 
+
+
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 30))
 
+if user_collection is None:
+    raise HTTPException(status_code=500, detail="Database not connected")
 
 logger = logging.getLogger(__name__)
 

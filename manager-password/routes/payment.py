@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from dotenv import load_dotenv
 import os
 import stripe
-
+import database
 load_dotenv()
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")

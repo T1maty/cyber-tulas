@@ -6,9 +6,10 @@ from routes.user import router as user_router
 from routes.server import router as server_router
 from routes.payment import router as payment_router
 import logging
-from database import user_collection
+import database
 from fastapi.testclient import TestClient
 from fastapi.routing import APIRoute
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -48,7 +49,7 @@ app.add_middleware(
 @app.get("/test-connection")
 async def test_connection():
     try:
-        collections = await user_collection.database.list_collection_names()
+        collections = await database.user_collection.database.list_collection_names()
         return {"status": "success", "collections": collections}
     except Exception as e:
         logger.error(f"Error connecting to the database: {e}")

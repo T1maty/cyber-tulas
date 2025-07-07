@@ -22,6 +22,10 @@ logger.info(f"MONGO_USER: {MONGO_USER}, MONGO_PASSWORD: {MONGO_PASSWORD}, MONGO_
 
 mongo_details = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DB}?retryWrites=true&w=majority"
 
+
+
+user_collection = None
+
 try:
     client = AsyncIOMotorClient(mongo_details)
     database = client[MONGO_DB]
@@ -32,6 +36,10 @@ try:
     logger.info("MongoDB connection established successfully.")
 except Exception as e:
     logger.error(f"Error connecting to MongoDB: {e}")
+
+
+print("user_collection in globals:", "user_collection" in globals())
+print("module __name__:", __name__)
 
 
 
