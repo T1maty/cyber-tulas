@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
 import os
 import logging
+import urllib.parse
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -12,20 +13,27 @@ load_dotenv()
 
 Base = declarative_base()
 
-MONGO_USER = os.getenv("MONGO_USER")
-MONGO_PASSWORD = os.getenv("MONGO_PASSWORD")
+MONGO_USER = urllib.parse.quote_plus(os.getenv("MONGO_USER"))
+MONGO_PASSWORD = urllib.parse.quote_plus(os.getenv("MONGO_PASSWORD"))
 MONGO_HOST = os.getenv("MONGO_HOST")
 MONGO_DB = os.getenv("MONGO_DB")
 MONGO_PORT = os.getenv("MONGO_PORT", "27017")
 
+if not all([MONGO_USER, MONGO_PASSWORD, MONGO_HOST, MONGO_DB]):
+    raise RuntimeError("Missing required MongoDB environment variables")
+
+
 logger.info(f"MONGO_USER: {MONGO_USER}, MONGO_PASSWORD: {MONGO_PASSWORD}, MONGO_HOST: {MONGO_HOST}, MONGO_DB: {MONGO_DB}")
 
-mongo_details = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DB}?retryWrites=true&w=majority"
+mongo_details = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DB}?retryWrites=true&w=majority"
+client = AsyncIOMotorClient(mongo_details)
+database = client[MONGO_DB]
+user_collection = database.get_collection("users")
 
 
 
-user_collection = None
 
+'''
 try:
     client = AsyncIOMotorClient(mongo_details)
     database = client[MONGO_DB]
@@ -36,10 +44,8 @@ try:
     logger.info("MongoDB connection established successfully.")
 except Exception as e:
     logger.error(f"Error connecting to MongoDB: {e}")
+'''
 
-
-print("user_collection in globals:", "user_collection" in globals())
-print("module __name__:", __name__)
 
 
 
