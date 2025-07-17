@@ -4,6 +4,9 @@ WORKDIR /app
 
 COPY requirements.txt .
 
+
+RUN echo "server 8.8.8.8" > /etc/resolv.conf
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .

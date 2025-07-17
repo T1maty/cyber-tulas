@@ -25,7 +25,7 @@ if not all([MONGO_USER, MONGO_PASSWORD, MONGO_HOST, MONGO_DB]):
 
 logger.info(f"MONGO_USER: {MONGO_USER}, MONGO_PASSWORD: {MONGO_PASSWORD}, MONGO_HOST: {MONGO_HOST}, MONGO_DB: {MONGO_DB}")
 
-mongo_details = f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DB}?retryWrites=true&w=majority"
+mongo_details = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONGO_DB}?retryWrites=true&w=majority"
 client = AsyncIOMotorClient(mongo_details)
 database = client[MONGO_DB]
 user_collection = database.get_collection("users")
