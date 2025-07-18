@@ -29,6 +29,8 @@ mongo_details = f"mongodb+srv://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}/{MONG
 client = AsyncIOMotorClient(mongo_details)
 database = client[MONGO_DB]
 user_collection = database.get_collection("users")
+server_collection = database.get_collection("servers")
+payment_collection = database.get_collection("payments")
 
 
 

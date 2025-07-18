@@ -17,10 +17,13 @@ async def process_payment(amount: int, currency:str):
         charge = stripe.Charge.create(
             amount = amount,
             currency = currency,
-            description = "Payment for server",
-            source = "tok_visa"
+            description = "Payment for service",
+            source = "tok_visa",
+           
         )
 
+
+   
         # Return a success response
         return {"status": "success", "charge_id": charge.id}
     except stripe.error.CardError as e:
