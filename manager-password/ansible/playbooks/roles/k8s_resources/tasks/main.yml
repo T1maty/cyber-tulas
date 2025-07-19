@@ -48,3 +48,9 @@
     state: present
     src: "{{ role_path }}/templates/mongo/mongo-pvc.yaml"
     namespace: default
+
+- name: Apply MongoDB pvc
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/mongo/mongo-pvc.yaml"
+    namespace: default
