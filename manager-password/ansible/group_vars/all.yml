@@ -1,6 +1,0 @@
-minikube_version: "v1.33.1"
-fastapi_image: "terms124/fastapi-app:latest"
-mongodb_image: "mongo:latest"
-fastapi_port: 8000
-mongodb_port: 27017
-namespace: "default"

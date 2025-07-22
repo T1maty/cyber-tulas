@@ -33,6 +33,7 @@ jobs:
           cat $GITHUB_WORKSPACE/uvicorn.log || echo "Log file not created yet"
         env:
           ENV: test
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         working-directory: manager-password
 
 
