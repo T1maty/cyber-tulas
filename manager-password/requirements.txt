@@ -4,7 +4,7 @@ click==8.1.7
 dnspython==2.6.1
 exceptiongroup==1.2.1
 fastapi==0.110.0
-h11==0.14.0
+h11==0.16.0
 idna==3.7
 motor==3.4.0
 pydantic==2.7.1
