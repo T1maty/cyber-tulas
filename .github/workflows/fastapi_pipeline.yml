@@ -68,3 +68,5 @@ jobs:
       - name: Stop FastAPI server
         run: |
           pkill -f "uvicorn" || true  # Ensure the workflow does not fail if the process is not found
+
+
