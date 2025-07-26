@@ -23,3 +23,4 @@ python-multipart
 pyjwt
 pydantic[email]
 stripe
+starlette==0.40.0
