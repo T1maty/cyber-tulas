@@ -18,6 +18,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build Docker image
+        working-directory: manager-password
         run: docker build -t fastapi-app:latest .
 
       - name: Run Trivy scanner without cache
