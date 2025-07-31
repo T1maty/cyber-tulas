@@ -9,11 +9,14 @@ import logging
 import database
 from fastapi.testclient import TestClient
 from fastapi.routing import APIRoute
+from prometheus_fastapi_instrumentator import Instrumentator
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+
+Instrumentator().instrument(app).expose(app)
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

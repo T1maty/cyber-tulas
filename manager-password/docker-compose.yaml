@@ -5,6 +5,7 @@ services:
     env_file:
       - .env
     build: .
+    command: uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8000
     ports:
       - "8000:8000"
     depends_on:
@@ -31,3 +32,4 @@ volumes:
 
 networks:
   app-network:
+    driver: bridge
