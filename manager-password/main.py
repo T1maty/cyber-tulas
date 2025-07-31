@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 
 
-Instrumentator().instrument(app).expose(app)
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -24,6 +23,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 app = FastAPI()
+
+Instrumentator().instrument(app).expose(app)
+
 
 
 
