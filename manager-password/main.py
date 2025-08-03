@@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
 from fastapi.routing import APIRoute
 from prometheus_fastapi_instrumentator import Instrumentator
 from prometheus_client import Counter, Histogram
+from fastapi import Depends, HTTPException, status
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -40,14 +41,23 @@ for route in app.routes:
 
 
 
+
+def verify_admin_user(token: str = Depends(oauth2_scheme)):
+    payload = decode_jwt(token)
+    if payload.get("role") != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
+    return payload
+
+
 @app.route("/metrics")
-def get_metrics():
-    return generate_latest()
+def get_metrics(user = Depends(verify_admin_user)):
+    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 @app.route('/api/data')
 @REQUEST_LATENCY.time()
 def get_data():
     REQUEST_COUNT.inc()
+
 
 app.include_router(user_router, prefix="/api/users")
 app.include_router(server_router, prefix="/api/servers")
