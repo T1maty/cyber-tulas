@@ -25,3 +25,4 @@ pydantic[email]
 stripe
 sqlalchemy
 prometheus_fastapi_instrumentator
+python-logging-loki==0.3.1

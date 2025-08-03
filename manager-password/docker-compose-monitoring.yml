@@ -14,6 +14,16 @@ services:
       - MONGO_HOST=${MONGO_HOST}
       - MONGO_DB=${MONGO_DB}
       - MONGO_PORT=${MONGO_PORT}
+    depends_on:
+      - loki
+    
+    
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    environment:
+      - LOKI_ENDPOINT
 
   db:
     image: mongo:latest

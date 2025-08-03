@@ -58,11 +58,7 @@ async def token_login(form_data: Annotated[str, Depends(oauth2_scheme)]):
 
 
 
-def verify_admin_user(token: str = Depends(oauth2_scheme)):
-    payload = decode_jwt(token)
-    if payload.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized")
-    return payload
+
 
 
 @router.post("/register")

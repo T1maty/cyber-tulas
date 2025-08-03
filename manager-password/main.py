@@ -7,12 +7,20 @@ from routes.server import router as server_router
 from prometheus_client import generate_latest
 from routes.payment import router as payment_router
 import logging
+from logging_loki import LokiQueueHandler
 import database
 from fastapi.testclient import TestClient
 from fastapi.routing import APIRoute
 from prometheus_fastapi_instrumentator import Instrumentator
 from prometheus_client import Counter, Histogram
 from fastapi import Depends, HTTPException, status
+from multiprocessing import Queue
+from dotenv import load_dotenv
+import os
+from os import getenv
+
+
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -30,6 +38,17 @@ app = FastAPI()
 Instrumentator().instrument(app).expose(app)
 
 
+
+
+loki_logs_handler = LokiQueueHandler(
+    Queue(-1),
+    url=getenv("LOKI_ENDPOINT"),
+    tags={"application":"fastapi"},
+    version="1"
+)
+
+uvicorn_access_logger = logging.getLogger("uvicorn.access")
+uvicorn_access_logger.addHandler(loki_logs_handler)
 
 REQUEST_COUNT = Counter('api_requests_total', 'Total API requests')
 REQUEST_LATENCY = Histogram('api_request_latency_seconds', 'API request latency')
