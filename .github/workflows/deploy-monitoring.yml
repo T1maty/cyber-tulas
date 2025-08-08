@@ -20,7 +20,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Build monitoring stack (Prometheus & Grafana)
-        run: docker compose -f monitoring/docker-compose.yml up -d --build
+        run: docker compose -f /cyber-tulas/manager-password/monitoring/docker-compose.yml up -d --build
 
       - name: Wait for services to be ready
         run: sleep 10
