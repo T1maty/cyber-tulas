@@ -1,0 +1,7 @@
+.env
+# Ansible
+*.retry
+secrets/
+group_vars/all/secrets.yml
+.inventory.ini
+.ansible.cfg

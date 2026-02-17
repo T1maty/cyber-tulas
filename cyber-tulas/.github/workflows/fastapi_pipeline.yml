@@ -1,0 +1,73 @@
+name: FastAPI CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r manager-password/requirements.txt
+          pip install pytest
+
+      - name: Run FastAPI server
+        run: |
+          uvicorn main:app --host 0.0.0.0 --port 8000 > $GITHUB_WORKSPACE/uvicorn.log 2>&1 & sleep 2
+          cat $GITHUB_WORKSPACE/uvicorn.log || echo "Log file not created yet"
+        env:
+          ENV: test
+        working-directory: manager-password
+
+
+      - name: Install Ansible and Kubernetes collection
+        run: |
+          python -m pip install ansible
+          ansible-galaxy collection install kubernetes.core
+
+      - name: Set up Minikube
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{secrets.KUBECONFIG}}" > $HOME/.kube/config
+      
+      - name: Run Ansible Playbook
+        run: ansible-playbook  -t skip_facts deploy_kuber.yml
+        working-directory: manager-password/ansible/playbooks
+
+      - name: Wait for server to start
+        run: |
+          sleep 10  # Wait for 10 seconds to ensure the server has started
+
+      - name: Check if FastAPI server is running
+        run: |
+          curl --retry 5 --retry-delay 2 --retry-max-time 30 http:localhost:8000/ || echo "Failed to reach FastAPI server"
+        working-directory: manager-password
+         
+
+      - name: Capture FastAPI server logs
+        run: cat $GITHUB_WORKSPACE/uvicorn.log || echo "Log file not found"
+        continue-on-error: true
+
+
+      - name: Stop FastAPI server
+        run: |
+          pkill -f "uvicorn" || true  # Ensure the workflow does not fail if the process is not found
+
+
+# Comment fot Github

@@ -1,0 +1,8 @@
+- hosts: localhost
+  connection: local
+  become: false
+  gather_facts: false
+  roles:
+    - k8s_resources
+    - minikube_setup
+    - network_policies

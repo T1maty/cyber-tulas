@@ -1,0 +1,6 @@
+{
+  "recommendations": [
+      "redhat.ansible",
+      "mattiasbaake.vscode-snippets-for-ansible"
+  ]
+}

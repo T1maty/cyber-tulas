@@ -1,0 +1,83 @@
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: payment-app-secret
+  namespace: default
+type: Opaque
+data:
+  STRIPE_SECRET_KEY: c2tfdGVzdF81MVJkeU1VQXNaYWduOWRzTjk3SjRpZk9UVzhScEFtZ3hzNW1sWXI1ZW9xM0pENnZNNUg2N1BuTXEwSURCdUpVYmU3RHlEOUN1bXN1bVVjT0QwRXAzS0Y4WDAwRExmdDNMNHM=
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: payment-app-config
+  namespace: default
+data:
+  ENV: test
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-app
+  namespace: default
+  labels:
+    app: payment-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: payment-app
+  template:
+    metadata:
+      labels:
+        app: payment-app
+    spec:
+      containers:
+      - name: payment-app
+        image: python:3.12-slim
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            pip install fastapi uvicorn stripe python-dotenv &&
+            cd /app &&
+            uvicorn main:app --host 0.0.0.0 --port 8000
+        ports:
+        - containerPort: 8000
+        env:
+        - name: STRIPE_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: payment-app-secret
+              key: STRIPE_SECRET_KEY
+        - name: ENV
+          valueFrom:
+            configMapKeyRef:
+              name: payment-app-config
+              key: ENV
+        volumeMounts:
+        - name: app-code
+          mountPath: /app
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-app-service
+  namespace: default
+spec:
+  selector:
+    app: payment-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+    nodePort: 30080
+  type: NodePort

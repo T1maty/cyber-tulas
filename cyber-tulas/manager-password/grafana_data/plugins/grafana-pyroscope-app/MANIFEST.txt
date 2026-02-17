@@ -1,0 +1,53 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "manifestVersion": "2.0.0",
+  "signatureType": "grafana",
+  "signedByOrg": "grafana",
+  "signedByOrgName": "Grafana Labs",
+  "plugin": "grafana-pyroscope-app",
+  "version": "1.6.0",
+  "time": 1753787837414,
+  "keyId": "7e4d0c6a708866e7",
+  "files": {
+    "plugin.json": "4674d27f394454c21d64dfb43de7f8ee810190d0d24658c8bebad237f0456266",
+    "948.js": "f4061dfc3599bc4fb725d6d801b3859a8d7d66267e24607e706c3f3e3d3141e5",
+    "948.js.map": "686d8c5e6decd3ad107acb205b10744e2f8e54c388a66d224e2dfe00dc406186",
+    "img/9c9cdd5175734d579007.png": "ab65c374d22c5faad274f6b8b2ab00bf404bb988803f09d375326cd692fce821",
+    "img/resolve-incidents.png": "66d5311c4ca898cdae2d0a23a414f04a7c49052f0035c1a2906b9e9bb15d628d",
+    "img/reduce-costs.png": "ab65c374d22c5faad274f6b8b2ab00bf404bb988803f09d375326cd692fce821",
+    "img/hero-image.png": "87598baf93192a8dc7ee923e0af6a0c5e4b3359b00b7391fc9530108feb7aac0",
+    "img/58f0b0e1cfa063e4b662.png": "87598baf93192a8dc7ee923e0af6a0c5e4b3359b00b7391fc9530108feb7aac0",
+    "img/8cdf4d2e2df8326311ab.gif": "72afdd2fcad33e13db33af765a3fae9528315d78391684190dd23e40bd688852",
+    "img/diff-view-how-to.gif": "72afdd2fcad33e13db33af765a3fae9528315d78391684190dd23e40bd688852",
+    "img/61b4cf746a6f58780f27.png": "f626933745990d2fef3d90e995f38d5e28e4754c002cf031379db7588c8fd70c",
+    "img/logo.svg": "559341996765c2d5639a2818d76bcd88ffe252212193a573f2f9f77dae5064dd",
+    "img/bafee50693eb02088442.png": "66d5311c4ca898cdae2d0a23a414f04a7c49052f0035c1a2906b9e9bb15d628d",
+    "img/decrease-latency.png": "f626933745990d2fef3d90e995f38d5e28e4754c002cf031379db7588c8fd70c",
+    "e79edcfbe2068fae2364.svg": "89ea40b6dcf2dc8dfe146f8acac42b604e4d3c3dad03e539551d58a21f80654d",
+    "module.js.map": "f96744e11b1f9195a2254c8b4e0cb3dbc87f03b30b02b6cedf59e6a477cd9b06",
+    "303.js.map": "fb7faf151be7b419b0e0e5aaa91525d7bb6d1a607a9b8ce62f0a1a86c84bd965",
+    "README.md": "9808cbc6131d2512117f366e51f5ede7aeea5b73a852f0763ba2d05ce7334dd0",
+    "module.js": "f47663a68dacd440a27d3604d7178c6ebd9640348e794d011ce6ea71f2fff3b9",
+    "303.js": "036358af4d43a0e5d136800af738f0305c117894003cb4a189fc47424dde9977",
+    "944c737f589d02ecf603.svg": "a0c8acbcf5685a8950ce1c67722579dc745585fb0d668ce965327955e5e829ff",
+    "CHANGELOG.md": "f054b2f3395c448f4a004fd981ddc88af10822dcbdf76494b73ea3d07a8d7ad9",
+    "shared/infrastructure/profile-metrics/profile-metrics.json": "0a3a345a365e72f4278d3a76d5739600483bed8f374ddc1c2af85029057b8d07",
+    "LICENSE": "8486a10c4393cee1c25392769ddd3b2d6c242d6ec7928e1414efff7dfb2f07ef",
+    "948.js.LICENSE.txt": "84798babe5a84ee41efdf41174af68e377c212b027183ecdd830747793156ded",
+    "pages/ProfilesExplorerView/components/SceneByVariableRepeaterGrid/components/SceneEmptyState/ui/img/grot-404-light.svg": "89ea40b6dcf2dc8dfe146f8acac42b604e4d3c3dad03e539551d58a21f80654d",
+    "pages/ProfilesExplorerView/components/SceneByVariableRepeaterGrid/components/SceneEmptyState/ui/img/grot-404-dark.svg": "a0c8acbcf5685a8950ce1c67722579dc745585fb0d668ce965327955e5e829ff",
+    "e6c722427cfa8715e19d.svg": "559341996765c2d5639a2818d76bcd88ffe252212193a573f2f9f77dae5064dd"
+  }
+}
+-----BEGIN PGP SIGNATURE-----
+
+wsA9BAETCgBtBYJoiK29CZB+TQxqcIhm50UUAAAAAAAcACBzYWx0QG5vdGF0
+aW9ucy5vcGVucGdwanMub3Jn/op/E/d/Dr0/+VfsmVqYy6Su+uh9p03D62zt
+HmI5AiIWIQTzOyW2kQdOhGNlcPN+TQxqcIhm5wAA5UUCCNtl1YwIHJ8bQyIv
+DZCZPOEb2o/wEVbXhvzeR6rzTqb5H6PXcrfI+e2dMyhiYr4hSaMWPZrJm1qG
+oGDOEfw6h8C+Agd4xhf0XHLeT3Vsl22yIZc1e2Xzbd8j85cjFjXr16RUgZ8X
+AXpk/I0VAOali6D1oxQHkSAPbv8fUdDj9HyaX3eu+Q==
+=eqsb
+-----END PGP SIGNATURE-----

@@ -1,0 +1,49 @@
+name: Deploy Monitoring Stack
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+  
+      - name: Docker Login
+        if: ${{ !env.ACT }}
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v3
+
+      
+      - name: Ensure docker compose is installed
+        run: |
+          if ! docker compose version >/dev/null 2>&1; then
+            echo "docker compose not found, installing..."
+            apt-get update
+            apt-get install -y docker-compose-plugin
+          fi
+          docker compose version
+
+      - name: Build monitoring stack (Prometheus & Grafana)
+        working-directory: manager-password/monitoring
+        run: docker compose up -d --build
+
+      - name: Wait for services to be ready
+        run: sleep 10
+
+      - name: Check Prometheus health
+        run: |
+          curl -sSf http://localhost:9090/-/healthy || exit 1
+
+      - name: Check Grafana is running
+        run: |
+          curl -sSf http://localhost:3000 || exit 1

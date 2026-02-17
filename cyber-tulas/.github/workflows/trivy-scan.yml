@@ -1,0 +1,33 @@
+name: Security Trivy Scan
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  trivy_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        working-directory: manager-password
+        run: docker build -t fastapi-app:latest .
+
+      - name: Run Trivy scanner without cache
+        uses:  aquasecurity/trivy-action@0.28.0
+        with:
+          image-ref: "fastapi-app:latest"
+          format: "table"
+          ignore-unfixed: true
+          severity: "CRITICAL,HIGH"
+          cache: 'false'
+
+
