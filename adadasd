@@ -1,0 +1,107 @@
+[33ma17c04d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to a17c04d
+[33m92261f9[m HEAD@{1}: rebase (abort): returning to refs/heads/main
+[33m92261f9[m HEAD@{2}: rebase (abort): returning to refs/heads/main
+[33ma17c04d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{3}: commit: Refactoring code, add Infrastructure directory and add Terraform code for GCP
+[33m92261f9[m HEAD@{4}: checkout: moving from 91975880dc944c21da7c1d435b7595f8c6fb98a0 to main
+[33m9197588[m HEAD@{5}: rebase (start): checkout tmp
+[33m92261f9[m HEAD@{6}: commit: Refactoring something code and adding workflow for trivy
+[33ma2a75bf[m HEAD@{7}: commit: Fixing bug with Stripe
+[33m8f6adbf[m HEAD@{8}: commit: Refactoring manifest and adding configmap
+[33mf1ad759[m HEAD@{9}: commit: Refactoring pipeline and fixing bug
+[33m8a13796[m HEAD@{10}: commit: Refactoring pipeline
+[33mc054494[m HEAD@{11}: commit: Create a new workflow, and refactoring fastapi_pipeline.yml
+[33m04d12df[m HEAD@{12}: commit: Delete test-playbook
+[33m27ed171[m HEAD@{13}: commit: Fixing bug with Ansible and ither issue
+[33m3a63d05[m HEAD@{14}: commit: Adding a new directory and create a lot file for ansible
+[33me19cfef[m HEAD@{15}: commit: Delete testing comment in main
+[33m4c057a5[m HEAD@{16}: commit: Rename directory and refactoring some files
+[33m0c99452[m HEAD@{17}: commit: Changed something files And add Ansible playbook
+[33m0a9b23c[m HEAD@{18}: commit: Adding ansible directory, and configuration local inventory
+[33m5dcd901[m HEAD@{19}: commit: Adding playbook
+[33m95a85b5[m HEAD@{20}: commit: Adding delete server method
+[33mbc0f83a[m HEAD@{21}: commit: Refactoring Code
+[33m9a428e0[m HEAD@{22}: commit: Refactoring and fixing routing in main.py
+[33m8d96ad2[m HEAD@{23}: commit: Add new response server, and fixing bug with routing user
+[33m319c198[m HEAD@{24}: commit: Adding new code in workflow
+[33m86fd896[m HEAD@{25}: commit: Refactoring workflow 3.0
+[33mfeef8cd[m HEAD@{26}: commit: Refactoring
+[33m26cabfc[m HEAD@{27}: commit: Refactoring new workflow
+[33md233776[m HEAD@{28}: commit: Add workflow kubespace
+[33m78c068c[m HEAD@{29}: commit: Refactoring workflow file
+[33m8fabe78[m HEAD@{30}: commit: Refactoring code, and fixing bug with login
+[33mfa05bae[m HEAD@{31}: commit: Fixing bug with request
+[33m442f1cc[m HEAD@{32}: commit: Refactoring code for testing
+[33mb3fba38[m HEAD@{33}: commit: Refactoring workflow
+[33ma50c14b[m HEAD@{34}: commit: Add cluster-role kubernetes
+[33m5c2ef66[m HEAD@{35}: commit: Adding a secuirty policy
+[33m43a6e4d[m HEAD@{36}: commit: Adding a network-policies in kubernetes, and rename project
+[33mf742932[m HEAD@{37}: commit: Adding folder to yaml files
+[33m1ae9592[m HEAD@{38}: commit: Add pytest, and refactoring router main
+[33m68ee56e[m HEAD@{39}: commit: Refactoring user.py and add code in .env
+[33mc8e6b7a[m HEAD@{40}: commit: Add CORS
+[33m362e94e[m HEAD@{41}: commit: Add middleware
+[33mdaff857[m HEAD@{42}: commit: refactoring code and add OAuth
+[33m1f58c9e[m HEAD@{43}: commit: fixing request
+[33m525dea3[m HEAD@{44}: commit: Adding router
+[33m57ea3e0[m HEAD@{45}: commit: Refactoring and fixing validation data
+[33m25af289[m HEAD@{46}: commit: refactoring code
+[33m26985a8[m HEAD@{47}: commit: changes directory
+[33m9a850ee[m HEAD@{48}: commit: add ingress to kubernetes, and refactoring main page
+[33m3326e24[m HEAD@{49}: commit: Add cors
+[33m8575473[m HEAD@{50}: commit: Refactoring code and workflow
+[33m02cc928[m HEAD@{51}: commit: Refactoring workflow
+[33m089112d[m HEAD@{52}: commit: Add pytest, and add mock testing to my little cluster mongodb
+[33mba747df[m HEAD@{53}: commit: Rename method
+[33m301aa11[m HEAD@{54}: commit: Add register method
+[33ma776d7c[m HEAD@{55}: commit: Refactoring validation in register
+[33m3bb7ef5[m HEAD@{56}: commit: Rename userbase, and trying add validation
+[33m902cd9c[m HEAD@{57}: commit: Add token and try fixing bug with user schemas
+[33m98ee773[m HEAD@{58}: commit: test commit
+[33m8bfb738[m HEAD@{59}: checkout: moving from main to main
+[33m8bfb738[m HEAD@{60}: checkout: moving from eadc465ea8ddeb0542364162931526c3e44d66b5 to main
+[33meadc465[m HEAD@{61}: commit: Test commit 2.0
+[33m1ab97ab[m HEAD@{62}: commit (merge): Cleaned up and fixed MongoDB connection logic in database.py
+[33m82c5906[m HEAD@{63}: commit: Test commit
+[33m73dc55d[m HEAD@{64}: commit: fixing bug with mongodb, add try catch and debugging project
+[33md41150e[m HEAD@{65}: commit: Test commit for fixing connect mongodb
+[33m4bdedd0[m HEAD@{66}: checkout: moving from 8bfb7382efbddcf9a6784d7cabfe96f3c7dee82b to 4bdedd0
+[33m8bfb738[m HEAD@{67}: checkout: moving from 40ad1d526166d8d6abcd93fd46734cfb57a6b128 to 8bfb7382efbddcf9a6784d7cabfe96f3c7dee82b
+[33m40ad1d5[m HEAD@{68}: checkout: moving from d8e9d01a087ea8e51fab6ed9471a3fd5765ea0ed to 40ad1d5
+[33md8e9d01[m HEAD@{69}: checkout: moving from main to d8e9d01
+[33m8bfb738[m HEAD@{70}: commit: Test commit to fixing connect mongodb
+[33m4bdedd0[m HEAD@{71}: commit: Trying push
+[33md8e9d01[m HEAD@{72}: reset: moving to d8e9d01
+[33md8e9d01[m HEAD@{73}: checkout: moving from main to main
+[33md8e9d01[m HEAD@{74}: checkout: moving from d8e9d01a087ea8e51fab6ed9471a3fd5765ea0ed to main
+[33md8e9d01[m HEAD@{75}: checkout: moving from main to d8e9d01
+[33md8e9d01[m HEAD@{76}: commit: trying fixing problem with pytest and workflow
+[33m40ad1d5[m HEAD@{77}: commit: Refactoring workflow and test commit
+[33m62dc3d7[m HEAD@{78}: commit: Test commit
+[33mb8dc281[m HEAD@{79}: commit: Add a directory tests, and try re-run workflow
+[33mf136fd6[m HEAD@{80}: commit: refactoring workflow 2.1
+[33m4b49ae3[m HEAD@{81}: commit: testing workflow
+[33m409fe58[m HEAD@{82}: commit: Add test function to fix problem with worfkflows
+[33mbef1eb4[m HEAD@{83}: commit: refactoring yaml files
+[33m77293f7[m HEAD@{84}: commit: refactoring yaml file
+[33mfec6e29[m HEAD@{85}: commit: Add pytest
+[33m3b3ed34[m HEAD@{86}: commit: Refactoring workflow
+[33maea92bc[m HEAD@{87}: commit: Add new workflow
+[33m882897d[m HEAD@{88}: commit: refactoring code
+[33m393d43e[m HEAD@{89}: commit: refactoring pipeline 2.0
+[33mdd24530[m HEAD@{90}: commit: Trying fix bug with pipeline
+[33ma4ed05e[m HEAD@{91}: commit: Retape directory
+[33m5f81233[m HEAD@{92}: commit: refactoring workflow
+[33m7f07401[m HEAD@{93}: pull: Fast-forward
+[33m13ead8d[m HEAD@{94}: commit: Delete .github
+[33m96fb6ca[m HEAD@{95}: commit: Refactoring ci_cd
+[33me62f03a[m HEAD@{96}: commit: Rename file
+[33mbb78e3a[m HEAD@{97}: commit: add github workflows
+[33m8f66682[m HEAD@{98}: commit: Refactoring main.py
+[33m4480d9c[m HEAD@{99}: commit: Fixing bug with docker, and fixing bug with kubernetes fastapi and mongodb
+[33mab16255[m HEAD@{100}: commit: fixed bug with kubernetes
+[33m1761554[m HEAD@{101}: commit: Refactoring Code
+[33mdfba284[m HEAD@{102}: commit: Fix bug with docker
+[33m39b1226[m HEAD@{103}: commit: Fixed bug with uvicorn
+[33mc0ab0cb[m HEAD@{104}: commit: Add docker and docker-compose
+[33m7cc5c53[m HEAD@{105}: commit: Changed code
+[33mf2298d1[m HEAD@{106}: commit (initial): first commit
