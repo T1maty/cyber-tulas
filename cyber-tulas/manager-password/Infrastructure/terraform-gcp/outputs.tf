@@ -17,4 +17,3 @@ output "zone" {
 output "project_id" {
   value = google_compute_instance.vm_instance.project
 }
-//Comment for git
