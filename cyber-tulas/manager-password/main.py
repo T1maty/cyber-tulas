@@ -1,3 +1,4 @@
+from email.policy import HTTP
 import time
 from fastapi import FastAPI
 from fastapi.security import OAuth2PasswordBearer
@@ -18,9 +19,16 @@ from multiprocessing import Queue
 from dotenv import load_dotenv
 import os
 from os import getenv
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+import secrets
 
 
 load_dotenv()
+
+security = HTTPBasic()
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -33,7 +41,9 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 
-app = FastAPI()
+app = FastAPI(docs_url="/admin",redoc_url=None)
+app = FastAPI(docs_url=None, redoc_url=None)
+
 
 Instrumentator().instrument(app).expose(app)
 
@@ -61,16 +71,25 @@ for route in app.routes:
 
 
 
-def verify_admin_user(token: str = Depends(oauth2_scheme)):
-    payload = decode_jwt(token)
-    if payload.get("role") != "admin":
-        raise HTTPException(status_code=403, detail="Not authorized")
-    return payload
+def verify_docs_access(credentials: HTTPBasicCredentials = Depends(security)):
+    correct_username = secrets.compare_digest(credentials.username, os.getenv("DOCS_USER", "admin"))
+    correct_password = secrets.compare_digest(credentials.password, os.getenv("DOCS_PASSWORD", "secret"))
+    if not (correct_username and correct_password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect credentials",
+            headers={"WWW-Authenticate": "Basic"},
+        )
 
 
-@app.get("/metrics")
-def get_metrics(user = Depends(verify_admin_user)):
-    return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
+@app.get("/admin", include_in_schema=False)
+async def get_docs(credentials: HTTPBasicCredentials = Depends(verify_docs_access)):
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="Admin Docs")
+
+
+#@app.get("/metrics")
+#def get_metrics(user = Depends(verify_admin_user)):
+ #   return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 @app.route('/api/data')
 @REQUEST_LATENCY.time()
