@@ -68,7 +68,7 @@ def verify_admin_user(token: str = Depends(oauth2_scheme)):
     return payload
 
 
-@app.route("/metrics")
+@app.get("/metrics")
 def get_metrics(user = Depends(verify_admin_user)):
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
