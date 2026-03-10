@@ -1,14 +1,7 @@
 
-provider "google" {
-  project = "cyber-tulas" 
-  region  = "us-central1"                
-  zone    = "us-central1-a"
-}
-
-
 resource "google_compute_instance" "vm_instance" {
   name         = "terraform-vm"
-  machine_type = "e2-micro"              
+  machine_type = var.machine_type             
 
  
   boot_disk {
@@ -22,7 +15,7 @@ resource "google_compute_instance" "vm_instance" {
   network_interface {
     network = "default"
     access_config {
-      
+      nat_ip = google_compute_address.my_ip.address
     }
   }
 
@@ -45,7 +38,3 @@ resource "google_compute_firewall" "allow_access" {
   source_ranges = ["0.0.0.0/0"] 
 }
 
-
-output "ip_address" {
-  value = google_compute_instance.vm_instance.network_interface.0.access_config.0.nat_ip
-}
