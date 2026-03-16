@@ -1,0 +1,20 @@
+services:
+  fastapi-app:
+    env_file:
+      - .env
+    build: .
+    restart: unless-stopped
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=web"
+      - "traefik.http.routers.fastapi.rule=Host(`api-cybertulas.com`)"
+      - "traefik.http.routers.fastapi.entrypoints=websecure"
+      - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.fastapi.service=fastapi"
+      - "traefik.http.services.fastapi.loadbalancer.server.port=8000"
+
+networks:
+  web:
+    external: true
