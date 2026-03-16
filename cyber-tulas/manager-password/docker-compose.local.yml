@@ -8,9 +8,9 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - app-network
+      - web
 
 networks:
-  app-network:
-    driver: bridge
+  web:
+    external: true
 
