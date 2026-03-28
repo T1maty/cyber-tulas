@@ -1,9 +1,8 @@
 // ===== APP INIT =====
 
 (function init() {
- // comment opendashboard when you have backend ready and want to test auth flow
-  openDashboard('dev-user');
-  return;
+ // openDashboard('dev-user');
+  //return;
 
   const session = getSession();
   if (session && session.username) {
