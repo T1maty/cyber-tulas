@@ -1,10 +1,10 @@
+---
 - name: Debug namespace variable
   ansible.builtin.debug:
     msg: "Namespace value: {{ namespace }}"
 
-- name: Create namespace if it does not exist
+- name: Create namespace
   kubernetes.core.k8s:
-    kubeconfig: ~/.kube/config
     state: present
     definition:
       apiVersion: v1
@@ -12,18 +12,22 @@
       metadata:
         name: default
 
-
-
-- name: Apply FastAPI Deployment
+- name: Apply MongoDB Secret
   kubernetes.core.k8s:
     state: present
-    src: "{{ role_path }}/templates/app/fastapi-deployment.yaml"
+    src: "{{ role_path }}/templates/mongo/mongo-secret.yaml"
     namespace: default
 
-- name: Apply FastAPI Service
+- name: Apply MongoDB Persistent Volume Claim
   kubernetes.core.k8s:
     state: present
-    src: "{{ role_path }}/templates/app/fastapi-service.yaml"
+    src: "{{ role_path }}/templates/mongo/mongo-pvc.yaml"
+    namespace: default
+
+- name: Apply MongoDB ConfigMap
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/config-maps/config_map-mongodb.yaml"
     namespace: default
 
 - name: Apply MongoDB Deployment
@@ -38,20 +42,14 @@
     src: "{{ role_path }}/templates/mongo/mongo-service.yaml"
     namespace: default
 
-- name: Apply MongoDB Secret
+- name: Apply FastAPI Deployment
   kubernetes.core.k8s:
     state: present
-    src: "{{ role_path }}/templates/mongo/mongo-secret.yaml"
+    src: "{{ role_path }}/templates/app/fastapi-deployment.yaml"
     namespace: default
 
-- name: Apply MongoDB Persistent-Volume-Claim
+- name: Apply FastAPI Service
   kubernetes.core.k8s:
     state: present
-    src: "{{ role_path }}/templates/mongo/mongo-pvc.yaml"
-    namespace: default
-
-- name: Apply MongoDB pvc
-  kubernetes.core.k8s:
-    state: present
-    src: "{{ role_path }}/templates/mongo/mongo-pvc.yaml"
+    src: "{{ role_path }}/templates/app/fastapi-service.yaml"
     namespace: default
