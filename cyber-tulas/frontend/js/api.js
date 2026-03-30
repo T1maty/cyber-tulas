@@ -1,11 +1,10 @@
-// ===== API LAYER =====
-// Всі запити до бекенду тут. Змінюй BASE_URL під свій сервер.
 
-const API_BASE_URL = 'http://localhost:8000'; // <- змінити на свій URL
+
+const API_BASE_URL = 'http://localhost:8000'; 
 
 const TOKEN_KEY = 'cyber-tulas-token';
 
-// ---- Token helpers ----
+
 function getToken() {
   return localStorage.getItem(TOKEN_KEY);
 }
@@ -18,7 +17,7 @@ function removeToken() {
   localStorage.removeItem(TOKEN_KEY);
 }
 
-// ---- Base fetch wrapper ----
+
 async function apiFetch(endpoint, options = {}) {
   const token = getToken();
 
@@ -33,7 +32,7 @@ async function apiFetch(endpoint, options = {}) {
     headers,
   });
 
-  // Повертаємо { ok, status, data }
+
   let data = null;
   try {
     data = await response.json();

@@ -1,16 +1,12 @@
-FROM node:20-alpine
+FROM nginx:alpine
 
-WORKDIR /app
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY package*.json ./
-
-
-RUN npm install
+COPY . /usr/share/nginx/html/
 
 
-COPY . .
+RUN chmod -R 755 /usr/share/nginx/html && \
+    chown -R nginx:nginx /usr/share/nginx/html
 
-EXPOSE 8080
-
-
-CMD ["npx", "http-server", "-p", "3000", "-c-1"]
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
