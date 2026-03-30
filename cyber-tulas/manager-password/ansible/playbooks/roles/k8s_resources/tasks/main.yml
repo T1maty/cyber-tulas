@@ -53,3 +53,15 @@
     state: present
     src: "{{ role_path }}/templates/app/fastapi-service.yaml"
     namespace: default
+
+- name: Apply Frontend Deployment
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/frontend/frontend-deployment.yaml"
+    namespace: default
+
+- name: Apply Frontend Service
+  kubernetes.core.k8s:
+    state: present
+    src: "{{ role_path }}/templates/frontend/frontend-service.yaml"
+    namespace: default

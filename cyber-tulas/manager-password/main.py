@@ -5,15 +5,15 @@ from fastapi.security import OAuth2PasswordBearer
 from starlette.middleware.cors import CORSMiddleware
 from routes.user import router as user_router
 from routes.server import router as server_router
-from prometheus_client import generate_latest
+#from prometheus_client import generate_latest
 from routes.payment import router as payment_router
 import logging
-from logging_loki import LokiQueueHandler
+#from logging_loki import LokiQueueHandler
 import database
 from fastapi.testclient import TestClient
 from fastapi.routing import APIRoute
-from prometheus_fastapi_instrumentator import Instrumentator
-from prometheus_client import Counter, Histogram
+#from prometheus_fastapi_instrumentator import Instrumentator
+#from prometheus_client import Counter, Histogram
 from fastapi import Depends, HTTPException, status
 from multiprocessing import Queue
 from dotenv import load_dotenv
@@ -42,26 +42,26 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 app = FastAPI(docs_url="/admin",redoc_url=None)
-app = FastAPI(docs_url=None, redoc_url=None)
-
-
-Instrumentator().instrument(app).expose(app)
 
 
 
+#Instrumentator().instrument(app).expose(app)
 
-loki_logs_handler = LokiQueueHandler(
-    Queue(-1),
-    url=getenv("LOKI_ENDPOINT"),
-    tags={"application":"fastapi"},
-    version="1"
-)
 
-uvicorn_access_logger = logging.getLogger("uvicorn.access")
-uvicorn_access_logger.addHandler(loki_logs_handler)
 
-REQUEST_COUNT = Counter('api_requests_total', 'Total API requests')
-REQUEST_LATENCY = Histogram('api_request_latency_seconds', 'API request latency')
+
+# loki_logs_handler = LokiQueueHandler(
+#     Queue(-1),
+#     url=getenv("LOKI_ENDPOINT"),
+#     tags={"application":"fastapi"},
+#     version="1"
+# )
+
+# uvicorn_access_logger = logging.getLogger("uvicorn.access")
+# uvicorn_access_logger.addHandler(loki_logs_handler)
+
+# REQUEST_COUNT = Counter('api_requests_total', 'Total API requests')
+# REQUEST_LATENCY = Histogram('api_request_latency_seconds', 'API request latency')
 
 
 for route in app.routes:
@@ -91,10 +91,10 @@ async def get_docs(credentials: HTTPBasicCredentials = Depends(verify_docs_acces
 #def get_metrics(user = Depends(verify_admin_user)):
  #   return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
-@app.route('/api/data')
-@REQUEST_LATENCY.time()
-def get_data():
-    REQUEST_COUNT.inc()
+# @app.route('/api/data')
+# @REQUEST_LATENCY.time()
+# def get_data():
+#     REQUEST_COUNT.inc()
 
 
 app.include_router(user_router, prefix="/api/users")
