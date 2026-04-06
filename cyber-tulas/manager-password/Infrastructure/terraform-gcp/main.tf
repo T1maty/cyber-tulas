@@ -1,16 +1,17 @@
+resource "google_compute_address" "my_ip" {
+  name = "static-ip-address"
+}
 
 resource "google_compute_instance" "vm_instance" {
   name         = "terraform-vm"
   machine_type = var.machine_type             
 
- 
   boot_disk {
     initialize_params {
       image = "ubuntu-os-cloud/ubuntu-2204-lts"
       size  = 20
     }
   }
-
 
   network_interface {
     network = "default"
@@ -19,12 +20,10 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
-
   metadata = {
-  ssh-keys = "ansible:${file("~/.ssh/id_ed25519.pub")}"
-   }
+    ssh-keys = "ansible:${file("~/.ssh/id_ed25519.pub")}"
+  }
 }
-
 
 resource "google_compute_firewall" "allow_access" {
   name    = "allow-ssh-http"
@@ -37,4 +36,3 @@ resource "google_compute_firewall" "allow_access" {
 
   source_ranges = ["0.0.0.0/0"] 
 }
-
