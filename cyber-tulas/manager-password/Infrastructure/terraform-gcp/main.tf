@@ -1,7 +1,11 @@
+resource "google_compute_address" "my_ip" {
+  name = "static-ip-address"
+}
+
 resource "google_compute_instance" "vm_instance" {
   name         = "terraform-vm"
   machine_type = var.machine_type
-  zone         = "us-central1-a" 
+  zone         = "us-central1-a"
 
   boot_disk {
     initialize_params {
@@ -30,11 +34,22 @@ resource "google_compute_instance" "vm_instance" {
 
     mkdir -p /home/ansible/cyber-tulas
     cd /home/ansible/cyber-tulas
-    # Клонуємо, якщо папка порожня
     git clone https://github.com/T1maty/cyber-tulas.git .
   EOT
 
   metadata = {
-    ssh-keys = "ansible:ssh-ed25519 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPj27X2WcE7A/LYygexD1Rpzpk90R0rhqBHxP35fSNyz tomas@fedora"
+    ssh-keys = "ansible:ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPj27X2WcE7A/LYygexD1Rpzpk90R0rhqBHxP35fSNyz tomas@fedora"
   }
+}
+
+resource "google_compute_firewall" "allow_access" {
+  name    = "allow-ssh-http-app"
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22", "80", "443", "8080"]
+  }
+
+  source_ranges = ["${var.admin_ip}/32"]
 }

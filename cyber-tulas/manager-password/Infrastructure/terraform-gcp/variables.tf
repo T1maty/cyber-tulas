@@ -20,3 +20,9 @@ variable "machine_type" {
   type        = string
   default     = "e2-micro"
 }
+
+
+variable "admin_ip" {
+  description = "93.99.216.182/32"
+  type        = string
+}
