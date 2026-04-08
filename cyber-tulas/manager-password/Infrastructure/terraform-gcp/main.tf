@@ -1,8 +1,3 @@
-resource "google_compute_address" "my_ip" {
-  name = "static-ip-address"
-}
-
-
 resource "google_compute_instance" "vm_instance" {
   name         = "terraform-vm"
   machine_type = var.machine_type
@@ -22,34 +17,24 @@ resource "google_compute_instance" "vm_instance" {
     }
   }
 
-  # THE BRIDGE: This script runs automatically on the VM at startup
+  service_account {
+    scopes = ["cloud-platform"]
+  }
+
   metadata_startup_script = <<-EOT
     #!/bin/bash
-    # Update system and install Docker + Docker Compose
     apt-get update
-    apt-get install -y docker.io docker-compose
-    
-    # Enable Docker to start on boot
+    apt-get install -y docker.io docker-compose git
     systemctl enable docker
     systemctl start docker
 
-    # Optional: Logic to pull  code/images would go here
-    # Example: git clone https://github.com/your-repo /home/ubuntu/app
+    mkdir -p /home/ansible/cyber-tulas
+    cd /home/ansible/cyber-tulas
+    # Клонуємо, якщо папка порожня
+    git clone https://github.com/T1maty/cyber-tulas.git .
   EOT
 
   metadata = {
-    ssh-keys = "ansible:${file("~/.ssh/id_ed25519.pub")}"
+    ssh-keys = "ansible:ssh-ed25519 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPj27X2WcE7A/LYygexD1Rpzpk90R0rhqBHxP35fSNyz tomas@fedora"
   }
-}
-
-resource "google_compute_firewall" "allow_access" {
-  name    = "allow-ssh-http-app"
-  network = "default"
-
-  allow {
-    protocol = "tcp"
-    ports    = ["22", "80", "443", "8080"] 
-  }
-
-  source_ranges = ["0.0.0.0/0"] 
 }
