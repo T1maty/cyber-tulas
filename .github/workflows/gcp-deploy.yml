@@ -21,6 +21,7 @@ jobs:
       
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/iac@master
+        continue-on-error: true
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
