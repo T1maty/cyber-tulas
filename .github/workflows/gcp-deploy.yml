@@ -47,8 +47,12 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init 
+        working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
+        run: terraform init
 
       - name: Terraform Apply
         working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
-        run: terraform apply -auto-approve -var="project_id=cyber-tulas"
+        run: |
+          terraform apply -auto-approve \
+            -var="project_id=cyber-tulas" \
+            -var="admin_ip=${{ secrets.MY_IP }}"
