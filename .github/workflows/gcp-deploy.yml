@@ -50,4 +50,5 @@ jobs:
         run: terraform init 
 
       - name: Terraform Apply
+        working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
         run: terraform apply -auto-approve -var="project_id=cyber-tulas"
