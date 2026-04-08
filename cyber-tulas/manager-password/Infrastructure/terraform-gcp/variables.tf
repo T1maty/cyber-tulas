@@ -23,6 +23,7 @@ variable "machine_type" {
 
 
 variable "admin_ip" {
-  description = "93.99.216.182/32"
+  description = "Admin IP address for SSH access"
   type        = string
+  default     = "93.99.216.182"  
 }
