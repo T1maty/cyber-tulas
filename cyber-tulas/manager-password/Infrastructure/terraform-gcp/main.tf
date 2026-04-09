@@ -29,12 +29,22 @@ resource "google_compute_instance" "vm_instance" {
     #!/bin/bash
     apt-get update
     apt-get install -y docker.io docker-compose git
+
     systemctl enable docker
     systemctl start docker
+    usermod -aG docker ansible
 
     mkdir -p /home/ansible/cyber-tulas
+    rm -rf /home/ansible/cyber-tulas/*
     cd /home/ansible/cyber-tulas
+
+  
     git clone https://github.com/T1maty/cyber-tulas.git .
+
+    chown -R ansible:ansible /home/ansible/cyber-tulas
+
+    cd /home/ansible/cyber-tulas/manager-password
+    docker-compose up -d
   EOT
 
   metadata = {
