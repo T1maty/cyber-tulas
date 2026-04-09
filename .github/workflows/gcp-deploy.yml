@@ -50,6 +50,14 @@ jobs:
         working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
         run: terraform init
 
+      - name: Terraform Import Firewall (if exists)
+        working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
+        run: |
+          terraform import -auto-approve \
+            google_compute_firewall.allow_access \
+            projects/cyber-tulas/global/firewalls/allow-ssh-http-app || true
+        continue-on-error: true
+
       - name: Terraform Apply
         working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
         run: |
