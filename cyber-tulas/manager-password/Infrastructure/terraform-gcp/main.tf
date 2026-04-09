@@ -53,3 +53,4 @@ resource "google_compute_firewall" "allow_access" {
 
   source_ranges = ["${var.admin_ip}/32"]
 }
+
