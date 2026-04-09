@@ -49,14 +49,23 @@ jobs:
       - name: Terraform Init
         working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
         run: terraform init
-
-      - name: Terraform Import Firewall (if exists)
+      
+      - name: Terraform Plan
         working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
         run: |
-          terraform import -auto-approve \
-            google_compute_firewall.allow_access \
-            projects/cyber-tulas/global/firewalls/allow-ssh-http-app || true
-        continue-on-error: true
+          terraform plan \
+            -var="project_id=cyber-tulas" \
+            -var="admin_ip=${{ secrets.MY_IP }}"
+      
+
+      # Optional: Import existing firewall rule if it exists (to avoid conflicts)
+      # - name: Terraform Import Firewall (if exists)
+      #   working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
+      #   run: |
+      #     terraform import -auto-approve \
+      #       google_compute_firewall.allow_access \
+      #       projects/cyber-tulas/global/firewalls/allow-ssh-http-app || true
+      #   continue-on-error: true
 
       - name: Terraform Apply
         working-directory: cyber-tulas/manager-password/Infrastructure/terraform-gcp
