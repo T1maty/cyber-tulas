@@ -1,20 +1,30 @@
+version: "3.8"
+
 services:
   fastapi-app:
+    build:
+      context: ./manager-password  
+      dockerfile: Dockerfile       
     env_file:
-      - .env
-    build: .
-    restart: unless-stopped
+      - ./manager-password/.env
+    ports:
+      - "8000:8000"
     networks:
       - web
-    labels:
-      - "traefik.enable=true"
-      - "traefik.docker.network=web"
-      - "traefik.http.routers.fastapi.rule=Host(`api-cybertulas.com`)"
-      - "traefik.http.routers.fastapi.entrypoints=websecure"
-      - "traefik.http.routers.fastapi.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.fastapi.service=fastapi"
-      - "traefik.http.services.fastapi.loadbalancer.server.port=8000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend          
+      dockerfile: Dockerfile       
+    ports:
+      - "80:80"                    
+    networks:
+      - web
+    restart: unless-stopped
+    depends_on:
+      - fastapi-app                
 
 networks:
   web:
-    external: true
+    driver: bridge                 

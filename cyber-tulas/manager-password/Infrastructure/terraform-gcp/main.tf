@@ -44,7 +44,7 @@ resource "google_compute_instance" "vm_instance" {
     chown -R ansible:ansible /home/ansible/cyber-tulas
 
     cd /home/ansible/cyber-tulas/manager-password
-    docker-compose up -d
+    docker-compose -f docker-compose.prod.yml up --build  -d
   EOT
 
   metadata = {
