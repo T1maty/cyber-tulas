@@ -30,7 +30,7 @@ async function apiFetch(endpoint, options = {}) {
 }
 
 async function apiRegister(username, email, password) {
-  return apiFetch('/register', {
+  return apiFetch('api/register', {
     method: 'POST',
     body: JSON.stringify({ username, email, password }),
   });
