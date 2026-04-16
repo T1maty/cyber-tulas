@@ -29,10 +29,10 @@ async function apiFetch(endpoint, options = {}) {
   return { ok: response.ok, status: response.status, data };
 }
 
-async function apiRegister(username, email, password) {
+async function apiRegister(username, email, password, first_name, last_name) {
   return apiFetch('api/register', {
     method: 'POST',
-    body: JSON.stringify({ username, email, password }),
+    body: JSON.stringify({ username, email, password, first_name, last_name }),
   });
 }
 

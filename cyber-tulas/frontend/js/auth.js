@@ -38,13 +38,13 @@ function setButtonLoading(btn, loading) {
 }
 
 function extractErrorMessage(data) {
-  if (!data) return 'Помилка з\'єднання з сервером';
+  if (!data) return 'Error connecting to server';
   if (typeof data.detail === 'string') return data.detail;
   if (Array.isArray(data.detail)) {
     return data.detail.map(e => e.msg).join(', ');
   }
   if (data.message) return data.message;
-  return 'Невідома помилка';
+  return 'Unknown error';
 }
 
 // ---- Register ----
@@ -52,11 +52,13 @@ async function handleRegister() {
   const username = document.getElementById('regUsername').value.trim();
   const email    = document.getElementById('regEmail').value.trim();
   const password = document.getElementById('regPassword').value;
+  const first_name = document.getElementById('regFirstName').value.trim();
+  const last_name = document.getElementById('regLastName').value.trim();
   const confirm  = document.getElementById('regConfirm').value;
 
   clearErrors();
 
-  if (!username || !email || !password || !confirm) {
+  if (!username || !email || !password || !first_name || !last_name || !confirm) {
     return showError('registerError', 'Please fill in all fields');
   }
 
