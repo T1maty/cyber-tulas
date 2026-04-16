@@ -1,4 +1,3 @@
-// ===== THEME TOGGLE =====
 
 const THEME_KEY = 'cyber-tulas-theme';
 
